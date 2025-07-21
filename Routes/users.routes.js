@@ -1,26 +1,15 @@
 import { Router } from "express";
 
-const userRouter =Router();
+const userRouter = Router();
 
+userRouter.get('/', (req, res) => res.send({ title: "Get all users" }));
 
+userRouter.get('/:id', (req, res) => res.send({ title: "Get user details" }));
 
-userRouter.get('/',(req,res)=> res.send({title:"Get all Users"}));
+userRouter.post('/', (req, res) => res.send({ title: "Create a new user" }));
 
-userRouter.get('/:id',(req,res)=> res.send({title:"Get a user Details"}))
+userRouter.put('/:id', (req, res) => res.send({ title: "Update user details" }));
 
-userRouter.post('/',(req,res)=> res.send({title:"Create a new user ."}))
+userRouter.delete('/:id', (req, res) => res.send({ title: "Delete a user" }));
 
-
-userRouter.put('/:id',(req,res)=> res.send({title:"Update a user details"}))
-
-
-
-userRouter.delete('/:id',(req,res)=> res.send({title:"Delete a user "}))
-
-
-
-
-
-
-
-export default userRouter
+export default userRouter;

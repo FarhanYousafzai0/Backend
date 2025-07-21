@@ -1,8 +1,8 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import authRouter from './Routes/auth.routes';
-import userRouter from './Routes/users.routes';
-import subscriptionRouter from './Routes/subsription.routes';
+import authRouter from './Routes/auth.routes.js';
+import userRouter from './Routes/users.routes.js';
+import subscriptionRouter from './Routes/subsription.routes.js';
 dotenv.config()
 
 

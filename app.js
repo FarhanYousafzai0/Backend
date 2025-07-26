@@ -3,9 +3,11 @@ import dotenv from 'dotenv'
 import authRouter from './Routes/auth.routes.js';
 import userRouter from './Routes/users.routes.js';
 import subscriptionRouter from './Routes/subsription.routes.js';
-import connectToDatabase from './Routes/database/connection.js';
-import errorMiddleware from './database/Middlewares/error.middleware.js';
+
+
 import cookieParser from 'cookie-parser';
+import connectToDatabase from './Database/connection.js';
+import errorMiddleware from './Middlewares/error.middleware.js';
 dotenv.config()
 
 

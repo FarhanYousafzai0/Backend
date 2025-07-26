@@ -1,69 +1,47 @@
-
 import mongoose from "mongoose";
-import User from "../Models/user.model.js";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
+import User from "../Models/user.model.js";
+
 
 export const signUp = async (req, res, next) => {
-  const session = await mongoose.startSession(); 
-  session.startTransaction(); 
-
   try {
-    const { name, email, password } = req.body; 
+    const { name, email, password } = req.body;
 
-    // Check if input fields are missing
     if (!name || !email || !password) {
-      return res.status(400).json({ message: "Please enter all the fields!" }); 
+      return res.status(400).json({ success: false, error: "All fields are required" });
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: "User already exists" }); 
+      return res.status(400).json({ success: false, error: "User already exists" });
     }
 
-    // Hash the password
-    const salt = await bcrypt.genSalt(10); 
-    const hashedPassword = await bcrypt.hash(password, salt); 
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
-    const newUser = await User.create(
-      [
-        {
-          name,
-          email,
-          password: hashedPassword, 
-        },
-      ],
-      { session }
-    );
+    const newUser = await User.create({ name, email, password: hashedPassword });
 
-    // Generate JWT
     const token = jwt.sign(
-      { userId: newUser[0]._id },
-      process.env.JWT_SECRET, 
-      { expiresIn: process.env.JWT_EXPIRE_IN } // ✅ FIXED key name
+      { userId: newUser._id },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRE_IN }
     );
 
-    await session.commitTransaction();
-    session.endSession();
-
-    res.status(200).json({
+    res.status(201).json({
       success: true,
-      message: "User created successfully!",
+      message: "User registered successfully",
       data: {
         token,
-        user: newUser[0],
+        user: newUser,
       },
     });
   } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
-    next(error); 
+    next(error);
   }
 };
+
+
+
 
 
 

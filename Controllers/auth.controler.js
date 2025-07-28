@@ -46,15 +46,40 @@ export const signUp = async (req, res, next) => {
 
 
 // SignIn Function:
-export const signIn = async(req,res,next)=>{
+export const signIn = async (req, res, next) => {
+  try {
+    const { email, password } = req.body; 
 
+    const user = await User.findOne({ email });
 
-    try {
-        
-    } catch (error) {
-        
+    if (!user) {
+      return res.status(400).json({ error: "User not found. Please try again." }); 
     }
-}
+
+    const isPasswordValid = await bcrypt.compare(password, user.password); 
+
+    if (!isPasswordValid) {
+      return res.status(400).json({ error: "Invalid password." });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRE_IN }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "User login successfully",
+      token,
+      user,
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 
 // SignOut Function:

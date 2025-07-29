@@ -7,7 +7,16 @@ export const SubscriptionTracker = async (req, res, next) => {
       ...req.body,
       user: req.user._id,
     });
-
+const { workflowRunId } = await workflowClient.trigger({
+      url: `${process.env.SERVER_URL}/api/v1/workflows/subscription/reminder`,
+      body: {
+        subscriptionId: subscription.id,
+      },
+      headers: {
+        'content-type': 'application/json',
+      },
+      retries: 0,
+    })
 
     res.status(201).json({
       success: true,

@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import connectToDatabase from './Database/connection.js';
 import errorMiddleware from './Middlewares/error.middleware.js';
 import arjetMiddleware from './Middlewares/arjet.middleware.js';
+import workFlowRouter from './Routes/workflow.route.js';
 dotenv.config()
 
 
@@ -28,7 +29,7 @@ app.use(arjetMiddleware);
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/users',userRouter)
 app.use('/api/v1/subsriptions',subscriptionRouter)
-
+app.use('/api/v1/workflow',workFlowRouter)
 
 
 

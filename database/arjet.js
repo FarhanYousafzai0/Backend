@@ -1,18 +1,20 @@
 import arcjet,{shield,tokenBucket,detectBot} from "@arcjet/node";
-
+import dotenv from "dotenv";
+dotenv.config()
 
 const aj = arcjet({
  
   key: process.env.ARJET_KEY,
+
   rules: [
     
     shield({ mode: "LIVE" }),
   
-    detectBot({
-      mode: "LIVE",
-      allow: [
-      ],
-    }),
+    // detectBot({
+    //   mode: "LIVE",
+    //   allow: [
+    //   ],
+    // }),
     // Create a token bucket rate limit. Other algorithms are supported.
     tokenBucket({
       mode: "LIVE",

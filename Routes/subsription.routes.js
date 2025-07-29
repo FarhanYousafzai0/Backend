@@ -1,4 +1,6 @@
 import { Router } from "express";
+import authorize from "../Middlewares/auth.middleware.js";
+import { GetUserSubscriptions, SubscriptionTracker } from "../Controllers/subscription.controler.js";
 
 const subscriptionRouter = Router();
 
@@ -9,7 +11,7 @@ subscriptionRouter.get('/', (req, res) => res.send({ title: "Get all subscriptio
 subscriptionRouter.get('/:id', (req, res) => res.send({ title: "Get subscription details" }));
 
 // Create a new subscription
-subscriptionRouter.post('/', (req, res) => res.send({ title: "Create a new subscription" }));
+subscriptionRouter.post('/',authorize,SubscriptionTracker);
 
 // Update a subscription by ID
 subscriptionRouter.put('/:id', (req, res) => res.send({ title: "Update a subscription" }));
@@ -18,7 +20,7 @@ subscriptionRouter.put('/:id', (req, res) => res.send({ title: "Update a subscri
 subscriptionRouter.delete('/:id', (req, res) => res.send({ title: "Delete a subscription" }));
 
 // Get all subscriptions for a specific user
-subscriptionRouter.get('/user/:id', (req, res) => res.send({ title: "Get user subscriptions" }));
+subscriptionRouter.get('/user/:id',authorize,GetUserSubscriptions);
 
 // Get upcoming renewals
 subscriptionRouter.get('/upcoming-renewels', (req, res) => res.send({ title: "Get upcoming renewals" }));

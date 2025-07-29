@@ -8,6 +8,7 @@ import subscriptionRouter from './Routes/subsription.routes.js';
 import cookieParser from 'cookie-parser';
 import connectToDatabase from './Database/connection.js';
 import errorMiddleware from './Middlewares/error.middleware.js';
+import arjetMiddleware from './Middlewares/arjet.middleware.js';
 dotenv.config()
 
 
@@ -17,6 +18,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
+app.use(errorMiddleware);
+app.use(arjetMiddleware);
 
 // Connect To Database:
  connectToDatabase()
@@ -27,9 +30,8 @@ app.use('/api/v1/users',userRouter)
 app.use('/api/v1/subsriptions',subscriptionRouter)
 
 
-// 
 
-app.use(errorMiddleware);
+
 
 
 
